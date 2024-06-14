@@ -3,7 +3,7 @@
 ## Description:
 his project uses a PIC16F877A microcontroller to measure distance using an ultrasonic sensor. Based on the measured distance, it lights up different LEDs. The setup involves connecting the ultrasonic sensor and LEDs to specific pins on the microcontroller
 
-## Hardware Connenctins: 
+## Hardware Connections: 
 - **Ultrasonic Sensor:**
   - Trigger: RB0
   - Echo: RB4
