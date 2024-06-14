@@ -15,7 +15,6 @@ SCK (MCP2515 Pin 13) to SCK (PIC Pin 18)
 SI (MCP2515 Pin 14) to SDO (PIC Pin 26)  
 SO (MCP2515 Pin 15) to SDI (PIC Pin 25)  
 CS (MCP2515 Pin 16) to RD0 (PIC Pin 19)  
-Button: Connected to RB3 (Pin 36)  
 CANH and CANL: Connected to the CAN bus  
 
  
@@ -35,4 +34,5 @@ CANH and CANL: Connected to the CAN bus
 ## Next - using pickit 3:
 1. Upload the master.c to the designated master MPU
 2. Upload the salve.c to the designated slave MPU
+3. Test the code by pressing the button on the salve mpu, the , message is sent when the LED on the slave side flashes, and the message is received when the LED on the master's side flashes
  
