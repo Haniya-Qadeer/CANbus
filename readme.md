@@ -15,5 +15,5 @@ his project uses a PIC16F877A microcontroller to measure distance using an ultra
   - LED on RC3: Lights up when the distance is ≤ 2 cm
   - 
 ## Next:
-1. Upload the code
+1. Upload the code with pickit 3
 2. Test
