@@ -1,1 +1,50 @@
 
+#define _XTAL_FREQ 4000000
+#include <xc.h>
+#include <pic16f877a.h>
+// BEGIN CONFIG
+#pragma config FOSC = HS   
+#pragma config WDTE = OFF  
+#pragma config PWRTE = OFF 
+#pragma config BOREN = ON 
+#pragma config LVP = OFF   
+#pragma config CPD = OFF   
+#pragma config WRT = OFF  
+#pragma config CP = OFF    
+// END CONFIG
+void blink(int x){
+PORTCbits.RC0 = 0;
+    __delay_ms(x);
+  PORTCbits.RC0 = 1;
+ 
+}
+void main()
+{ 
+    int distance;
+    TRISB = 0b00010000;       // RB4 as Input PIN (ECHO)
+    TRISC0 = 0;               // RC0 as Output (LED)
+    TRISB0 = 0;               // RB0 as Output (Trigger)
+    T1CON = 0x10;             // Initialize Timer Module
+    blink(250);
+    while(1)
+    { 
+        TMR1H = 0;            // Sets the Initial Value of Timer
+        TMR1L = 0;            // Sets the Initial Value of Timer
+        PORTBbits.RB0 = 1;              // TRIGGER HIGH
+        __delay_us(10);       // 10uS Delay 
+        PORTBbits.RB0 = 0;              // TRIGGER LOW
+        while(!PORTBbits.RB4);          // Waiting for Echo
+        TMR1ON = 1;           // Timer Starts
+        while(PORTBbits.RB4);           // Waiting for Echo goes LOW
+        TMR1ON = 0;           // Timer Stops
+        distance = (TMR1L | (TMR1H << 8)); // Reads Timer Value
+        distance = distance / 58.82;        // Converts Time to Distance
+        distance = distance + 1;            // Distance Calibration
+        if (distance <= 10)
+            PORTCbits.RC0 = 0;
+        else if (distance <= 20)
+            blink(1000);
+        else PORTCbits.RC0 = 1;
+        __delay_ms(400);
+    }
+}
