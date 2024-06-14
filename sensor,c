@@ -1,4 +1,3 @@
-
 #define _XTAL_FREQ 4000000
 #include <xc.h>
 #include <pic16f877a.h>
@@ -14,15 +13,26 @@
 // END CONFIG
 void blink(int x){
 PORTCbits.RC0 = 0;
+PORTCbits.RC1 = 0;
+PORTCbits.RC2 = 0;
+PORTCbits.RC3 = 0;
+ 
     __delay_ms(x);
   PORTCbits.RC0 = 1;
+  PORTCbits.RC1 = 1;
+  PORTCbits.RC2 = 1;
+PORTCbits.RC3 = 1;
  
+
 }
 void main()
 { 
     int distance;
     TRISB = 0b00010000;       // RB4 as Input PIN (ECHO)
     TRISC0 = 0;               // RC0 as Output (LED)
+    TRISC1 = 0;  
+    TRISC2 = 0;
+    TRISC3 = 0;
     TRISB0 = 0;               // RB0 as Output (Trigger)
     T1CON = 0x10;             // Initialize Timer Module
     blink(250);
@@ -40,11 +50,34 @@ void main()
         distance = (TMR1L | (TMR1H << 8)); // Reads Timer Value
         distance = distance / 58.82;        // Converts Time to Distance
         distance = distance + 1;            // Distance Calibration
-        if (distance <= 10)
+        if (distance <= 9 && distance >7){
             PORTCbits.RC0 = 0;
-        else if (distance <= 20)
-            blink(1000);
-        else PORTCbits.RC0 = 1;
+            PORTCbits.RC1 = 1;
+            PORTCbits.RC2 = 1;
+            PORTCbits.RC3 = 1;
+        }
+        else if (distance <= 7 && distance >4)
+            {
+            PORTCbits.RC0 = 1;
+            PORTCbits.RC1 = 0;
+            PORTCbits.RC2 = 1;
+            PORTCbits.RC3 = 1;
+        }
+        else if (distance <= 4 && distance >2)
+            {
+            PORTCbits.RC0 = 1;
+            PORTCbits.RC1 = 1;
+            PORTCbits.RC2 = 0;
+            PORTCbits.RC3 = 1;
+        }
+        else if (distance <= 2)
+            {
+            PORTCbits.RC0 = 1;
+            PORTCbits.RC1 = 1;
+            PORTCbits.RC2 = 1;
+            PORTCbits.RC3 = 0;
+        }
+        else  blink(1000);
         __delay_ms(400);
     }
 }
