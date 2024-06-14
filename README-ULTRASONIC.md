@@ -17,3 +17,5 @@ his project uses a PIC16F877A microcontroller to measure distance using an ultra
 ## Next:
 1. Upload the code with pickit 3
 2. Test
+
+The code was adapted from: https://electrosome.com/hc-sr04-ultrasonic-sensor-pic/
